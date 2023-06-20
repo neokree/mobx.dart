@@ -39,7 +39,7 @@ class LibraryScopedNameFinder {
     // Reverse each import's export namespace so we can map elements to their
     // library-local names. Note that the definedNames include a prefix if there
     // is one.
-    for (final import in library.imports) {
+    for (final import in library.libraryImports) {
       for (final entry in import.namespace.definedNames.entries) {
         _namesByElement[entry.value] = entry.key;
       }
@@ -78,12 +78,12 @@ class LibraryScopedNameFinder {
   ///
   /// The returned string will include import prefixes on all applicable types.
   String _getDartTypeName(DartType type) {
-    var typeElement = type.element;
+    var typeElement = type.element2;
     if (type is FunctionType) {
       // If we're dealing with a typedef, we let it undergo the standard name
       // lookup. Otherwise, we special case the function naming.
-      if (typeElement?.enclosingElement is TypeAliasElement) {
-        typeElement = typeElement.enclosingElement;
+      if (typeElement?.enclosingElement3 is TypeAliasElement) {
+        typeElement = typeElement.enclosingElement3;
       } else {
         return _getFunctionTypeName(type);
       }
